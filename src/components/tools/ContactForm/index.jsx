@@ -22,7 +22,7 @@ export const ContactForm = () => (
 			name: "",
 			email: "",
 			message: "",
-/* 			recaptcha: "", */
+			recaptcha: "",
 			success: false,
 		}}
 		validationSchema={Yup.object().shape({
@@ -31,10 +31,10 @@ export const ContactForm = () => (
 				.email("Invalid email")
 				.required("Email field is required"),
 			message: Yup.string().required("Message field is required"),
-/* 			recaptcha:
-				process.env.NODE_ENV !== "development"
+			recaptcha:
+/* 				process.env.NODE_ENV !== "development"
 					? Yup.string().required("Robots are not welcome yet!")
-					: Yup.string(), */
+					: */ Yup.string(),
 		})}
 		onSubmit={async (
 			{ name, email, message },
@@ -44,9 +44,9 @@ export const ContactForm = () => (
 				await axios({
 					method: "POST",
 					url:
-						process.env.NODE_ENV !== "development"
+/* 						process.env.NODE_ENV !== "development"
                             ? `${process.env.SITE_URL}/api/contact`
-							: "http://localhost:3000/api/contact",
+							: */ `${process.env.SITE_URL}/api/contact`,
 					headers: {
 						"Content-Type": "application/json",
 					},
