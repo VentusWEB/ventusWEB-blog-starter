@@ -13,16 +13,8 @@ import { getImage } from "gatsby-plugin-image";
 import { ProductModalGallery } from "gatsby-plugin-modal-gallery";
 
 import {
-  ProductWrapper,
-  VinBox,
-  ParametersBox,
-  GridContentBox,
-  GridBoxDetails,
-  GridInfoBox,
-  ModalContainer,
-  ModalInfoBox,
-  ModalGalleryBox,
-} from "components/product";
+  BlogPostWrapper
+} from "components/blog";
 
 import { ReactComponent as VentusIcon } from "assets/svgs/vt-logo.svg";
 
@@ -30,6 +22,7 @@ import { ReactComponent as VentusIcon } from "assets/svgs/vt-logo.svg";
 export const query = graphql`
   query ($slug: String!) {
     wpVentuswebstarterblog(slug: { eq: $slug }) {
+      blogPostHeaderImageHeight
       blogPostTitle
       blogPostContent
       blogPostAuthor
@@ -40,13 +33,21 @@ export const query = graphql`
       blogPostImage {
         localFile {
           childImageSharp {
-            gatsbyImageData
+            gatsbyImageData(quality: 60, webpOptions: { quality: 60 })
+          }
+          childSvg {
+            content {
+              data
+            }
           }
         }
       }
       blogPostImageAlt
       blogPostImageHeight
       blogPostImageGlow
+      blogPostImageGlow2
+      blogPostImageGlowDeg
+      blogPostImageGlowOpacity
 
 
       blogPostTags {
@@ -157,12 +158,23 @@ const ProductPage = ({ data, key }) => {
     blogPostContent,
     blogPostAuthor,
     blogPostTags,
-    blogPostImage
+    blogPostImage,
+    blogPostHeaderImageHeight,
+    blogPostImageGlow,
+    blogPostImageGlow2,
+    blogPostImageGlowDeg,
+    blogPostImageGlowOpacity,
+    blogPostContentBg,
+    blogPostContentText
   } = data.wpVentuswebstarterblog;
 
-  console.log(blogPostTags)
+
 
   const headerImage = getImage(blogPostImage);
+
+  const icon = blogPostImage?.localFile.childSvg
+
+  const img = blogPostImage?.localFile.childImageSharp
 
   return (
     <Layout>
@@ -171,19 +183,18 @@ const ProductPage = ({ data, key }) => {
         scroll={false}
         menuItems={menuArray.sort(() => Math.random() - 0.5).slice(0, 3)}
       />
-      <HeroHeader
-        small
-        bgImage={headerImage}
-        headerBg="rgba(0,0,0,0.5)"
-        afterOpacity="0.3 !important"
-        HeroHeight="40vh"
-        HeroWidthMedia="40vh"
-        HeroHeightMedia="40vh"
-        backgroundImage={headerImage}
-        HeroBrandName="Ventus Trade"
-        HeroSubName="pojazdy & urządzenia"
-      ></HeroHeader>
-      <ProductWrapper>
+          <HeroHeader
+                bgImage={img}
+                bgIcon={icon}
+                height={blogPostHeaderImageHeight}
+                glowFirst={blogPostImageGlow}
+                glowSecond={blogPostImageGlow2}
+                glowDeg={blogPostImageGlowDeg}
+                glowOpacity={blogPostImageGlowOpacity}
+            />
+      <BlogPostWrapper
+                      background={blogPostContentBg}      
+                      color={blogPostContentText}>
         <Link to="/">
           <Button back>powrót</Button>
         </Link>
@@ -192,7 +203,7 @@ const ProductPage = ({ data, key }) => {
 <span>{blogPostAuthor}</span>
  
 <div dangerouslySetInnerHTML={{ __html: blogPostContent }} />
-      </ProductWrapper>
+      </BlogPostWrapper>
     </Layout>
   );
 };

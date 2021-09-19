@@ -46,7 +46,7 @@ export const CloseIcon = styled(AiFillCloseCircle)`
         opacity: .7;
     }
 
-    @media (min-width:768px) {
+    @media (min-width: ${({ styles }) => styles.mediaWidth ? styles.mediaWidth : "786px" }) {
         font-size: 50px;
     }
 

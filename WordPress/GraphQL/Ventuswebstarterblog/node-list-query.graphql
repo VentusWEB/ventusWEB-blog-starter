@@ -2,17 +2,21 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
   ventuswebstarterblogs(first: $first, after: $after) {
     nodes {
       blogPostAuthor
+      blogPostCardHeight
       blogPostContent
       blogPostContentBg
       blogPostContentText
       blogPostExcerpt
       blogPostFarewell
+      blogPostHeaderImageHeight
       blogPostImage {
         __typename
         id
       }
       blogPostImageAlt
       blogPostImageGlow
+      blogPostImageGlow2
+      blogPostImageGlowDeg
       blogPostImageGlowOpacity
       blogPostImageHeight
       blogPostSubtitle

@@ -113,7 +113,7 @@ export const ModalGallery = ({ handleKeyUp, photos, index, styles, changePhoto,s
             >
                 <ModalImageBox onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} styles={styles}>
                     <GatsbyImage image={currentImg} alt={currentImgAlt} />
-                    <CloseIcon onClick={handleCloseModal} />
+                    <CloseIcon onClick={handleCloseModal} styles={styles}/>
                     <CounterBox><span>{photo + 1} / {galleryLength}</span></CounterBox>
                     <ControlersBox onKeyUp={e => handleKeyUp(e)}>
                         <Controler onClick={handlePrev} styles={styles} />

@@ -8,10 +8,10 @@ import { CustomedFooter } from 'components/theme';
 import { Global } from 'styles';
 
 
-import { ScrollBtn } from "interactions"
-import { BottomNav } from "components/common"
-import CookiesBanner from "components/theme/CookiesBanner/CookiesBanner" 
+import { CookiesBanner } from "gatsby-plugin-cookies-banner"
+import { ScrollBtn } from 'gatsby-plugin-scroll-button'
 
+import { BottomNav } from "components/common"
 
 import './fonts.css';
 
@@ -34,6 +34,7 @@ export const Layout = ({ children }) => {
           fontColor
           background
         }
+
 
         footerSocialIcons: wpVentuswebstartercore(slug: {eq: "links-content"}) {
           phoneFooter {
@@ -332,6 +333,7 @@ colorDark.background = fontColor ? fontColor : colorDark.background
     <>
       <ThemeProviderStyle theme={themeMode == 'light' ? theme : themeDark} >
         <Global theme={themeMode == 'light' ? theme : themeDark} />
+
         <CookiesBanner
         cookieBackground={cookieBackground}
         cookieButtonBackground={cookieButtonBackground}
@@ -345,9 +347,8 @@ colorDark.background = fontColor ? fontColor : colorDark.background
         cookieLinkHref={cookieLinkHref}
         cookieLinkName={cookieLinkName}
         cookieLinkStyle={cookieLinkStyle}
-
-        
         showBelow={cookieBannerShow ? cookieBannerShow : 250} />
+
         <ScrollBtn 
         showBelow={buttonScrollOffset ? buttonScrollOffset : 250}
         buttonScrollIcon={buttonScrollIcon}
@@ -355,6 +356,7 @@ colorDark.background = fontColor ? fontColor : colorDark.background
         buttonScrollColor={buttonScrollColor}
         buttonScrollColorHover={buttonScrollColorHover}
          />
+
         {children}
         <BottomNav contactData={bottomNavContent} />
         <CustomedFooter footerLinkContent={footerLinkContent} footerSocialIcons={footerSocialIcons} footerContentData={footerContentData}/>

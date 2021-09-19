@@ -5,12 +5,17 @@ import { HeroHeaderBox, HeroHeaderText, HeroHeaderImg } from './styles.js'
 import { getImage } from "gatsby-plugin-image"
 
 export function HeroHeader({
+    height,
     children,
     bgImage,
     bgIcon,
     bgImageAlt,
     HeroBrandName,
     HeroSubName,
+    glowFirst,
+    glowSecond,
+    glowDeg,
+    glowOpacity,
     small }) {
 
         const { headerContent } = useStaticQuery(
@@ -24,6 +29,11 @@ export function HeroHeader({
                       childImageSharp {
                         gatsbyImageData
                       }
+                      childSvg {
+                        content {
+                          data
+                        }
+                      }
                     }
                   }
               }
@@ -33,12 +43,22 @@ export function HeroHeader({
 
     const { siteTitle, siteSubTitle, siteHeader } = headerContent
 
-    const icon = bgIcon ? bgIcon : siteHeader?.localFile.childSvg
+    const icon = bgIcon ? bgIcon : bgImage ? null : siteHeader?.localFile.childSvg
 
-	const img = bgImage ? bgImage : siteHeader?.localFile.childImageSharp
+	const img = bgImage ? bgImage : bgIcon ? null : siteHeader?.localFile.childImageSharp
 
+    const styles = {
+        heroHeight: height ? height : "60",
+        blogPostImageGlow : glowFirst ? glowFirst : "white",
+        blogPostImageGlow2 : glowSecond ? glowSecond : "black",
+        blogPostImageGlowDeg : glowDeg ? glowDeg : "black",
+        blogPostImageGlowOpacity : glowOpacity ? glowOpacity : "30" ,
+    }
+
+    console.log(styles)
+    console.log('styles')
     return (
-        <HeroHeaderBox small={small}>
+        <HeroHeaderBox small={small} styles={styles}>
 
             {
                 img ?
@@ -47,7 +67,6 @@ export function HeroHeader({
                 icon ?
                 <section
                 className="svg-bg"
-                key={uuid()}
                 dangerouslySetInnerHTML={{ __html: icon.content.data }}
                 />
                 :

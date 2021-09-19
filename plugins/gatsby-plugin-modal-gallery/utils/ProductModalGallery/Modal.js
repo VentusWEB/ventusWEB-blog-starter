@@ -48,7 +48,7 @@ export const Modal = ({
                 styles={styles}
                 >
                     <ModalGatsbyImage image={currentImg} alt={currentImgAlt} />
-                    <CloseIcon onClick={handleCloseModal} />
+                    <CloseIcon onClick={handleCloseModal} styles={styles}/>
                     <CounterBox><span>{currentPhoto} / {galleryLength}</span></CounterBox>
                     <ControlersBox onKeyUp={e => handleKeyUp(e)}>
                         <Controler onClick={handlePrev} styles={styles} />

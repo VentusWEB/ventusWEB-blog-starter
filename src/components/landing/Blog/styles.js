@@ -6,14 +6,7 @@ import { GatsbyImage } from 'gatsby-plugin-image';
 
 /* blog card */
 
-export const BlogPostCard = styled.article`
-
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-align-items: center;
-
-`
+ 
 export const BlogPostHeader = styled.section`
 
 `
@@ -26,7 +19,30 @@ export const BlogPostExcerpt = styled.em`
 
 `
 
+export const BlogPostImageBackground = styled.div`
+
+
+  &::after {
+  display: block;
+  position: relative;
+  background-image: linear-gradient(45deg, rgba(131,58,180,0.8) 0%, rgba(252,176,69,0.5) 100%);
+
+  margin-top: -150px;
+  height: 100%;
+  width: 100%;
+  content: '';
+}
+
+`
+
 export const BlogPostImage = styled(GatsbyImage)`
+
+  width: 100%;
+  padding: 0;
+  margin: 0 auto;
+  height: 100%;
+  position: absolute;
+  object-fit: cover;
 
 `
 
@@ -99,6 +115,72 @@ export const Wrapper = styled(MainWrapper)`
 
 `;
 
+export const BlogPostCard = styled.div`
+
+
+  margin: 10px;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: ${({ cardStyles }) => cardStyles.blogPostCardHeight},
+/*       width: calc(100% / 3 - 20px); */
+  float: left;
+  box-shadow: 0 0 2px 2px rgba(0,0,0,.05);
+  background: yellow;
+  -webkit-transition: .3s all ease;
+  transition: .15s all ease;
+
+.overlay-img .post-svg {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  
+  svg {
+    height: 90%;
+    width: 90%;
+    margin: auto;
+  }
+}
+
+  .content {
+    padding: 15px 20px;
+  }
+
+   h3 {
+    font: 2.8rem/3.4rem 'Bree Serif', serif;
+    padding: 0;
+    margin: 0 0 10px;
+    letter-spacing: -.075rem
+  }
+
+   p {
+    color: #888;
+    padding: 0;
+    margin: 0;
+    font: 400 1.6rem/2.2rem 'Open Sans script=all', sans-serif;
+  }
+
+
+.overlay-img::after {
+  content: ""; // ::before and ::after both require content
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(${({ cardStyles }) => cardStyles.blogPostImageGlowDeg}deg, ${({ cardStyles }) => cardStyles.blogPostImageGlow}, ${({ cardStyles }) => cardStyles.blogPostImageGlow2});
+  opacity: ${({ cardStyles }) => cardStyles.blogPostImageGlowOpacity}%;
+
+
+}
+
+.overlay-img {
+  position: relative;
+  height: ${({ cardStyles }) => cardStyles.blogPostImageHeight}px;
+}
+`
+
 export const BlogPostCardsContainer = styled(DefaultWrapper)`
     border-color: ${({ theme }) => theme.colors.secondary};
     max-width: 1280px;
@@ -113,47 +195,15 @@ export const BlogPostCardsContainer = styled(DefaultWrapper)`
       filter: grayscale(1);
 
     }
-    .card {
-      margin: 10px;
-      width: 280px;
-/*       width: calc(100% / 3 - 20px); */
-      float: left;
-      box-shadow: 0 0 2px 2px rgba(0,0,0,.05);
-      background: yellow;
-      -webkit-transition: .3s all ease;
-      transition: .15s all ease;
+
+    .card:hover {
+      box-shadow: 0 0 8px 3px rgba(0,0,0,.15);
+      transform: scale(1.025);
+      opacity: 1;
+      filter: grayscale(0);
+      transition: .35s all ease;
     }
-      .card:hover {
-        box-shadow: 0 0 8px 3px rgba(0,0,0,.15);
-        transform: scale(1.025);
-        opacity: 1;
-        filter: grayscale(0);
-        transition: .35s all ease;
-      }
-
-      .card img {
-        width: 100%;
-        padding: 0;
-        margin: 0;
-      }
-
-      .card .content {
-        padding: 15px 20px;
-      }
-
-      .card h3 {
-        font: 2.8rem/3.4rem 'Bree Serif', serif;
-        padding: 0;
-        margin: 0 0 10px;
-        letter-spacing: -.075rem
-      }
-
-      .card p {
-        color: #888;
-        padding: 0;
-        margin: 0;
-        font: 400 1.6rem/2.2rem 'Open Sans script=all', sans-serif;
-      }
+  
 `
 
 export const ProductsWrapper = styled.div`

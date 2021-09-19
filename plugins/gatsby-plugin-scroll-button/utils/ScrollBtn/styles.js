@@ -21,29 +21,34 @@ export const ScrollButton = styled.button`
             background-color: transparent;
             border: none;
             font-size: 50px;
-            color: ${({ theme, buttonScrollColor}) => buttonScrollColor ? buttonScrollColor : theme.colors.scrollBtn ? theme.colors.scrollBtn : 'black'};
+            color: ${({ styles, buttonScrollColor}) => buttonScrollColor ? buttonScrollColor : styles.color};
             cursor: pointer;
-            transition: 0.8s;
             animation: ${ShowScroll} .5s ease-in-out normal forwards;
             animation-iteration-count: 1;
-            transition: ${({ theme }) => theme.transitions.primary};
+            transition: ${({ styles }) => styles.transition};
 
         &:hover {
             transition: 0.5s;
-            color: ${({ theme, buttonScrollColorHover }) => buttonScrollColorHover ? buttonScrollColorHover : theme.colors.scrollBtnHover ? theme.colors.scrollBtn : 'black'};
+            color: ${({ styles, buttonScrollColorHover }) => buttonScrollColorHover ? buttonScrollColorHover : styles.hoverColor};
         }
 
         svg, img {
           max-width: 30px;
           max-height: 30px;
+          transition: ${({ styles }) => styles.transition};
         }
 
-        @media (min-width: ${({ theme }) => theme.device.m}){
+        @media (min-width: ${({ styles }) => styles.mediaWidth ? styles.mediaWidth : "900px"} ){
           svg, img {
             max-width: 50px;
             max-height: 50px;
           }
         }
+
+        img:hover {
+          filter: brightness(1.75);
+        }
+
 
 
 `

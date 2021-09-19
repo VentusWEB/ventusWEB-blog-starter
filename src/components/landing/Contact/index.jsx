@@ -9,7 +9,7 @@ import { SectionTitle, DefaultWrapper, PropCard, DefaultIcon } from 'components/
 import { ContactForm } from 'components/tools'
 
 
-import { contactItems } from "constans"
+/* import { contactItems } from "constans" */
 
 import { ContentBox, PaddingWrapper } from 'components/common'
 import { deviceType } from 'detect-it';

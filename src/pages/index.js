@@ -1,12 +1,13 @@
 import React from "react";
 import { graphql, useStaticQuery } from "gatsby";
 import { Layout, CustomedNav } from "components/theme";
-import { Seo, HeroHeader, SeparateBox } from "components/common";
-import { Offer, About, ContactLocation, Blog, Contact } from "components/landing";
+import { Seo, HeroHeader } from "components/common";
+import {  About, Blog, Contact } from "components/landing";
 
 const Home = () => {
   const {
     BlogData,
+    defaultBlogPostImg,
     SeoData,
     OfferData,
     AboutData,
@@ -144,12 +145,20 @@ const Home = () => {
                 childImageSharp {
                   gatsbyImageData(quality: 60, webpOptions: { quality: 60 })
                 }
+                childSvg {
+                  content {
+                    data
+                  }
+                }
               }
             }
             blogPostImageAlt
             blogPostImageGlow
+            blogPostImageGlow2
+            blogPostImageGlowDeg
             blogPostImageGlowOpacity
             blogPostImageHeight
+            blogPostCardHeight
             blogPostTitle
             blogPostTags {
               checkboxOptions {
@@ -250,11 +259,16 @@ const Home = () => {
 
         }
 
+        
+        defaultBlogPostImg: imageSharp(fixed: {originalName: {eq: "default-blog-post-image.png"}}) {
+          gatsbyImageData
+        }
+
       }
     `
   );
 
-  const randomPostArray = blogPosts.nodes.sort(() => Math.random() - 0.5)
+  const randomPostArray = blogPosts.nodes/* .sort(() => Math.random() - 0.5) */
 
   let menuArray = [];
 
@@ -272,7 +286,6 @@ const Home = () => {
 
       <CustomedNav scroll={true} menuItems={menuArray} />
       <HeroHeader small></HeroHeader>
-      <SeparateBox />
       <div
         css={`
           display: flex;
@@ -282,6 +295,7 @@ const Home = () => {
         <Blog
           itemData={randomPostArray}
           BlogData={BlogData}
+          defaultBlogPostImg={defaultBlogPostImg}
         />
         <Contact
           ContactData={ContactData}

@@ -1,17 +1,21 @@
 query PREVIEW_QUERY($id: ID!) {
   ventuswebstarterblog(id: $id, idType: ID, asPreview: true) {
     blogPostAuthor
+    blogPostCardHeight
     blogPostContent
     blogPostContentBg
     blogPostContentText
     blogPostExcerpt
     blogPostFarewell
+    blogPostHeaderImageHeight
     blogPostImage {
       __typename
       id
     }
     blogPostImageAlt
     blogPostImageGlow
+    blogPostImageGlow2
+    blogPostImageGlowDeg
     blogPostImageGlowOpacity
     blogPostImageHeight
     blogPostSubtitle
