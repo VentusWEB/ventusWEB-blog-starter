@@ -101,24 +101,40 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
     const singlePostTagTemplate = path.resolve("src/templates/BlogTag.js");
     let filteredTags = filteredAllTags.filter((item, index) => {
       return filteredAllTags.indexOf(item) === index})
-  
-      console.log(filteredTags)
 
-      filteredTags.forEach(uniqTag => {
+
+      filteredTags.forEach((uniqTag, index) => {
+        const previousTag = index === filteredTags.length - 1 ? null : filteredTags[index + 1].node
+        const nextTag = index === 0 ? null : filteredTags[index - 1].node
         createPage({
-          path: `tags/${uniqTag}`,
+          path: `tag/${uniqTag}`,
           component: singlePostTagTemplate,
           context: {
             tag: uniqTag,
+            previousTag,
+            nextTag,
           },
         })
       });
 
       
+      let filteredPosts = [];
 
+  
+      allBlogPosts.map(option => {
+        option.node.blogPostTags.checkboxValueOptions.map(item => {
+          if((item.value == uniqTag)) filteredPosts.push(option)
+        })
+      })
+    
+      let pageTagsNumber = filteredPosts.length
+    
+/*       console.log(filteredPosts)
+    
+      console.log(pageTagsNumber)
 
       let pageTagsNumber = posts.length
-
+ */
       const postsTagPerPage = 2;
       const numTagPages = Math.ceil(posts.length / postsTagPerPage);
 

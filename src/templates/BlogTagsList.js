@@ -7,19 +7,17 @@ import { Layout } from 'components/theme'
 
 
 
-class TagIndex extends React.Component {
+class BlogTagsListIndex extends React.Component {
   render() {
     const { data } = this.props
 /*     const siteTitle = data.site.siteMetadata.title */
     const posts = data.allWpVentuswebstarterblog.edges
-    const { currentPage, numPages } = this.props.pageContext
+    const { currentPage, numTagPages } = this.props.pageContext
     const isFirst = currentPage === 1
-    const isLast = currentPage === numPages
+    const isLast = currentPage === numTagPages
     const prevPage = currentPage - 1 === 1 ? '/' : (currentPage - 1).toString()
     const nextPage = (currentPage + 1).toString()
 
-    console.log(data)
-    console.log('data')
     return (
       <Layout >
 {/*         <Seo
@@ -32,6 +30,10 @@ class TagIndex extends React.Component {
           return (
               <div>
                   <h1>{node.blogPostTitle}</h1>
+                  {node.blogPostTitle.blogPostTags.checkboxValueOptions.map(item => (
+                  <p>TAGS: {item}  </p>
+                  ))}
+
               </div>
 /*             <div key={node.fields.slug}>
               <h3
@@ -63,7 +65,7 @@ class TagIndex extends React.Component {
               ← Previous Page
             </Link>
           )}
-          {Array.from({ length: numPages }, (_, i) => (
+          {Array.from({ length: numTagPages }, (_, i) => (
             <li
               key={`pagination-number${i + 1}`}
               style={{
@@ -94,10 +96,10 @@ class TagIndex extends React.Component {
   }
 }
 
-export default TagIndex
+export default BlogTagsListIndex
 
-export const pageTagQuery = graphql`
-  query blogTagPageQuery($skip: Int!, $limit: Int!) {
+export const pageQuery = graphql`
+  query blogPageTagsQuery($skip: Int!, $limit: Int!) {
     site {
       siteMetadata {
         title
@@ -114,6 +116,11 @@ export const pageTagQuery = graphql`
             date
             blogPostTitle
             blogPostExcerpt
+            blogPostTags {
+                checkboxValueOptions  {
+                  value
+                }
+              }
           }
         }
       }
