@@ -21,8 +21,7 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       blogPostImageHeight
       blogPostSubtitle
       blogPostTags {
-        checkboxOptions {
-          checked
+        checkboxValueOptions {
           value
         }
       }
@@ -99,15 +98,13 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       htmlContent
       id
       imported {
-        checkboxOptions {
-          checked
+        checkboxValueOptions {
           value
         }
       }
       infoText
       invoice {
-        checkboxOptions {
-          checked
+        checkboxValueOptions {
           value
         }
       }
@@ -122,8 +119,7 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       link
       loanPrice
       loanable {
-        checkboxOptions {
-          checked
+        checkboxValueOptions {
           value
         }
       }
@@ -190,8 +186,7 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       productName
       productSlug
       properties {
-        checkboxOptions {
-          checked
+        checkboxValueOptions {
           value
         }
       }
@@ -201,8 +196,7 @@ query NODE_LIST_QUERY($first: Int!, $after: String) {
       }
       slug
       sold {
-        checkboxOptions {
-          checked
+        checkboxValueOptions {
           value
         }
       }

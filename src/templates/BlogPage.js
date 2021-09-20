@@ -51,8 +51,7 @@ export const query = graphql`
 
 
       blogPostTags {
-        checkboxOptions {
-          checked
+        checkboxValueOptions  {
           value
         }
       }
@@ -103,7 +102,20 @@ export const query = graphql`
       }
     }
 
-    
+    blogPosts: allWpVentuswebstarterblog {
+      edges {
+        node {
+          slug
+          blogPostTags {
+            checkboxValueOptions  {
+              value
+            }
+          }
+        }
+      }
+
+    }
+
   }
 `;
 
@@ -170,8 +182,94 @@ const ProductPage = ({ data, key }) => {
 
 
 
-  const headerImage = getImage(blogPostImage);
+  console.log(blogPostTags)
+  console.log('blogPostTags')
 
+  const tags = blogPostTags.checkboxValueOptions.map(item => {
+    return item.value
+  })
+
+  console.log(tags.map(item => item && console.log(item)))
+  console.log('tags')
+  tags.forEach((uniqTag, index) => { 
+    if(uniqTag) {
+      console.log(uniqTag+'uni')
+    }
+  })
+  const tagName = 'koty'
+  
+  const allBlogPosts = data.blogPosts.edges
+
+
+  let filteredAllTags = [];
+  allBlogPosts.map(option => {
+    option.node.blogPostTags.checkboxValueOptions.map(item => {
+      if((item.value)) {
+        option.node.blogPostTags.checkboxValueOptions.map((item) => item.value && filteredAllTags.push(item.value))
+      } 
+    })
+  })
+
+  let filteredTags = filteredAllTags.filter((item, index) => {
+    return filteredAllTags.indexOf(item) === index})
+
+    console.log(filteredTags)
+  console.log('filteredAllTags')
+  let filteredPosts = [];
+  allBlogPosts.map(option => {
+    option.node.blogPostTags.checkboxValueOptions.map(item => {
+      if((item.value == tagName)) filteredPosts.push(option)
+    })
+  })
+
+  let pageTagsNumber = filteredPosts.length
+
+  console.log(pageTagsNumber)
+/*   allBlogPosts.filter(option => {
+    let op = option.node.blogPostTags.checkboxValueOptions .map(option => {
+      if((option.value == tagName)) return option 
+    })
+    if (op) return option
+  }) */
+
+/*   let filteredPosts = allBlogPosts.filter(option => {
+    if(! option.node.blogPostTags.checkboxValueOptions .map(option => {
+      if(option.value == tagName) return}) ) return
+    else {
+      return option
+    }
+  }) */
+
+/*   let filteredPosts = allBlogPosts.nodes
+  .filter(item => item.node.frontmatter.tags !== null)
+  .reduce(
+    (acc, cur) => [...new Set([...acc, ...cur.node.frontmatter.tags])],
+    []
+  )
+
+  console.log(filteredPosts)
+  console.log('filteredPosts') */
+
+/*   blogPostTags.checkboxValueOptions .map(option => {
+      if(option.checked) tagsArray.push(option.value) 
+    }) */
+ 
+/*     const tagsObject = allBlogPosts.nodes */
+
+/*     let filteredPosts = allBlogPosts.nodes
+  .filter(item => item.blogPostTags.checkboxValueOptions.filter(item => item.value == 'koty')) */
+/*   .reduce(
+    (acc, cur) => [...new Set([...acc, ...cur.item])],
+    []
+  ) */
+
+/*   let filteredPosts = allBlogPosts.edges.filter(item => item.node.blogPostTags.checkboxValueOptions.value !== null)
+  .reduce(
+    (acc, cur) => [...new Set([...acc, ...cur.item.node.blogPostTags.checkboxValueOptions])],
+    []
+  ) */
+  console.log(filteredPosts)
+  console.log('filteredPosts')
   const icon = blogPostImage?.localFile.childSvg
 
   const img = blogPostImage?.localFile.childImageSharp

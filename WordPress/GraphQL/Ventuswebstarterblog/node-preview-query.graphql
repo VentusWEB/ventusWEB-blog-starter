@@ -20,8 +20,7 @@ query PREVIEW_QUERY($id: ID!) {
     blogPostImageHeight
     blogPostSubtitle
     blogPostTags {
-      checkboxOptions {
-        checked
+      checkboxValueOptions {
         value
       }
     }
@@ -98,15 +97,13 @@ query PREVIEW_QUERY($id: ID!) {
     htmlContent
     id
     imported {
-      checkboxOptions {
-        checked
+      checkboxValueOptions {
         value
       }
     }
     infoText
     invoice {
-      checkboxOptions {
-        checked
+      checkboxValueOptions {
         value
       }
     }
@@ -121,8 +118,7 @@ query PREVIEW_QUERY($id: ID!) {
     link
     loanPrice
     loanable {
-      checkboxOptions {
-        checked
+      checkboxValueOptions {
         value
       }
     }
@@ -189,8 +185,7 @@ query PREVIEW_QUERY($id: ID!) {
     productName
     productSlug
     properties {
-      checkboxOptions {
-        checked
+      checkboxValueOptions {
         value
       }
     }
@@ -200,8 +195,7 @@ query PREVIEW_QUERY($id: ID!) {
     }
     slug
     sold {
-      checkboxOptions {
-        checked
+      checkboxValueOptions {
         value
       }
     }

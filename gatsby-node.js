@@ -16,13 +16,19 @@ exports.onCreateWebpackConfig = ({ actions }) => {
 exports.createPages = async ({ actions: { createPage }, graphql }) => {
   const data = await graphql(`
     {
-      allWpVentuswebstarterblog {
+      allWpVentuswebstarterblog(sort: {order: DESC, fields: [date]}, limit: 1000) {
         edges {
           node {
             slug
+            blogPostTags {
+              checkboxValueOptions  {
+                value
+              }
+            }
           }
         }
       }
+
     }
   `);
 
@@ -33,13 +39,255 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
 
   const singlePostTemplate = path.resolve("src/templates/BlogPage.js");
 
-  data.data.allWpVentuswebstarterblog.edges.forEach((edge) => {
+
+      // Create blog posts pages.
+    const posts = data.data.allWpVentuswebstarterblog.edges
+
+    posts.forEach((post, index)=> {
+    const previous = index === posts.length - 1 ? null : posts[index + 1].node
+    const next = index === 0 ? null : posts[index - 1].node
+    data.data.allWpVentuswebstarterblog.edges.forEach((post) => {
     createPage({
-      path: `/wpis/${edge.node.slug}/`,
+      path: `/wpis/${post.node.slug}/`,
       component: singlePostTemplate,
       context: {
-        slug: edge.node.slug,
+        slug: post.node.slug,
+        previous,
+        next,
+      },
+    });
+    });
+
+
+/*     data.data.allWpVentuswebstarterblog.edges.forEach((edge) => {
+      createPage({
+        path: `/wpis/${edge.node.slug}/`,
+        component: singlePostTemplate,
+        context: {
+          slug: edge.node.slug,
+        },
+      });
+    }); */
+
+    const postsListTemplate = path.resolve("src/templates/BlogList.js");
+    const postsPerPage = 2;
+    const numPages = Math.ceil(posts.length / postsPerPage);
+
+    Array.from({ length: numPages }).forEach((_, i) => {
+      createPage({
+        path: i === 0 ? `/wpisy` : `/wpisy/${i + 1}`,
+        component: postsListTemplate,
+        context: {
+          limit: postsPerPage,
+          skip: i * postsPerPage,
+          numPages,
+          currentPage: i + 1
+        },
+      });
+    });
+
+
+    const allBlogPosts = posts
+
+
+    let filteredAllTags = [];
+    allBlogPosts.map(option => {
+      option.node.blogPostTags.checkboxValueOptions.map(item => {
+        if((item.value)) {
+          option.node.blogPostTags.checkboxValueOptions.map((item) => item.value && filteredAllTags.push(item.value))
+        } 
+      })
+    })
+    const singlePostTagTemplate = path.resolve("src/templates/BlogTag.js");
+    let filteredTags = filteredAllTags.filter((item, index) => {
+      return filteredAllTags.indexOf(item) === index})
+  
+      console.log(filteredTags)
+
+      filteredTags.forEach(uniqTag => {
+        createPage({
+          path: `tags/${uniqTag}`,
+          component: singlePostTagTemplate,
+          context: {
+            tag: uniqTag,
+          },
+        })
+      })
+
+/*     const tags = post.node.blogPostTags.checkboxValueOptions.map(item => {
+      return item.value
+    })
+
+    tags.forEach((uniqTag, index) => {
+    // Create blog post list pages
+    let filteredPosts = [];
+    if(uniqTag){
+      posts.map(option => {
+        option.node.blogPostTags.checkboxValueOptions.map(item => {
+          if((item.value == tagName)) filteredPosts.push(option)
+        })
+      })
+
+
+
+    let pageTagsNumber = filteredPosts.length
+
+    const postsTagPerPage = 2;
+    const numTagPages = Math.ceil(filteredPosts.length / postsTagPerPage);
+
+    const previousPage = index === filteredPosts.length - 1 ? null : filteredPosts[index + 1].node
+    const nextPage = index === 0 ? null : filteredPosts[index - 1].node
+    const singlePostTagTemplate = path.resolve("src/templates/BlogTag.js");
+    createPage({
+      path: `tags/${uniqTag}`,
+      component: singlePostTagTemplate,
+      context: {
+        tag: uniqTag,
+        previousPage,
+        nextPage,
+      },
+    })
+  } 
+    })
+    
+    
+    
+    */
+
+
+
+
+
+
+
+
+
+})}
+
+
+/*     const singlePostTagTemplate = path.resolve("src/templates/BlogTag.js");
+
+    const tags = post.node.blogPostTags.checkboxValueOptions.map(item => {
+      return item.value
+    })
+
+    tags.forEach((uniqTag, index) => {
+    // Create blog post list pages
+    let filteredPosts = [];
+    posts.map(option => {
+      option.node.blogPostTags.checkboxValueOptions.map(item => {
+        if((item.value == tagName)) filteredPosts.push(option)
+      })
+    })
+  
+    let pageTagsNumber = filteredPosts.length
+
+    const postsTagPerPage = 2;
+    const numTagPages = Math.ceil(filteredPosts.length / postsTagPerPage);
+
+    const previousPage = index === filteredPosts.length - 1 ? null : filteredPosts[index + 1].node
+    const nextPage = index === 0 ? null : filteredPosts[index - 1].node
+
+      createPage({
+        path: `tags/${uniqTag}`,
+        component: singlePostTagTemplate,
+        context: {
+          tag: uniqTag,
+          previousPage,
+          nextPage,
+        },
+      })
+
+      Array.from({ length: numTagPages }).forEach((_, i) => {
+        createPage({
+          path: i === 0 ? `/tags/${uniqTag}` : `/tags/${uniqTag}/${i + 1}`,
+          component: singlePostTagTemplate,
+          context: {
+            limit: postsTagPerPage,
+            skip: i * postsTagPerPage,
+            numTagPages,
+            currentPage: i + 1
+          },
+        });
+      });
+    }) */
+
+
+
+
+
+
+
+   /*  const singlePostTagTemplate = path.resolve("src/templates/BlogTag.js");
+
+
+    const tags = blogPostTags.checkboxOptions.map(item => {
+      return item.value
+    })
+
+
+    // Create blog posts pages.
+  const posts = data.data.allWpVentuswebstarterblog.edges
+
+  posts.forEach((post, index)=> {
+  const previous = index === posts.length - 1 ? null : posts[index + 1].node
+  const next = index === 0 ? null : posts[index - 1].node
+  createPage({
+    path: `/wpis/${post.node.slug}/`,
+    component: singlePostTagTemplate,
+    context: {
+      slug: post.node.slug,
+      previous,
+      next,
+    },
+  });
+});
+
+
+  // Create blog post list pages
+  const postsPerPage = 2;
+  const numPages = Math.ceil(posts.length / postsPerPage);
+
+  Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/wpisy` : `/wpisy/${i + 1}`,
+      component: path.resolve('./src/templates/BlogList.js'),
+      context: {
+        limit: postsPerPage,
+        skip: i * postsPerPage,
+        numPages,
+        currentPage: i + 1
       },
     });
   });
-};
+
+
+
+    // generate tag page
+    markdownFiles
+    .filter(item => item.node.frontmatter.tags !== null)
+    .reduce(
+      (acc, cur) => [...new Set([...acc, ...cur.node.frontmatter.tags])],
+      []
+    )
+    .forEach(uniqTag => {
+      createPage({
+        path: `tags/${uniqTag}`,
+        component: PostsBytagTemplate,
+        context: {
+          tag: uniqTag,
+        },
+      })
+    }) */
+
+
+// Create blog post list pages
+/* const postsPerPage = 2;
+const numPages = Math.ceil(posts.length / postsPerPage);
+
+Array.from({ length: numPages }).forEach((_, i) => {
+  createPage({
+    path: i === 0 ? `/` : `/${i + 1}`,
+    component: path.resolve("./src/templates/BlogList.js"),
+  });
+}); */

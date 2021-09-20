@@ -161,10 +161,9 @@ const Home = () => {
             blogPostCardHeight
             blogPostTitle
             blogPostTags {
-              checkboxOptions {
-                checked
-                value
-              }
+            checkboxValueOptions {
+              value
+            }
             }
             blogPostSubtitle
             blogPostFarewell
