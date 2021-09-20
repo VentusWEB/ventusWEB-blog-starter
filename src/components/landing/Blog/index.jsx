@@ -69,9 +69,6 @@ export const Blog = ({ itemData, BlogData, defaultBlogPostImg }) => {
         blogPostCardHeight: blogPostCardHeight ? blogPostCardHeight : "500",
     }
 
-    console.log(cardStyles)
-    console.log('blogPostImageGlowOpacity')
-
     const icon = blogPostImage?.localFile.childSvg
 
     const img = blogPostImage?.localFile.childImageSharp

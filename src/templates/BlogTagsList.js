@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
 
-import { Seo } from 'components/common'
+import { Seo, HeroHeader, SectionTitle } from 'components/common'
+
+import { CustomedNav } from 'components/theme'
 
 import { Layout } from 'components/theme'
 
@@ -10,30 +12,40 @@ import { Layout } from 'components/theme'
 class BlogTagsListIndex extends React.Component {
   render() {
     const { data } = this.props
-/*     const siteTitle = data.site.siteMetadata.title */
+    const siteTitle = data.site.siteMetadata.title
     const posts = data.allWpVentuswebstarterblog.edges
-    const { currentPage, numTagPages } = this.props.pageContext
+    const { currentPage, numPages, tag } = this.props.pageContext
     const isFirst = currentPage === 1
-    const isLast = currentPage === numTagPages
-    const prevPage = currentPage - 1 === 1 ? '/' : (currentPage - 1).toString()
-    const nextPage = (currentPage + 1).toString()
+    const isLast = currentPage === numPages
+    const prevPage = currentPage - 1 === 1 ? `/${tag}` : `/${tag}/${(currentPage - 1).toString()}`
+    const nextPage = `/${tag}/${(currentPage + 1).toString()}`
 
     return (
       <Layout >
-{/*         <Seo
-          title={siteTitle}
+            <Seo title={siteTitle} SeoData={data.wpVentuswebstartercore} />
+            <CustomedNav />
+            <HeroHeader
+                small
+            >
+            </HeroHeader>
 
-        /> */}
+            <SectionTitle>
+                <h4>{tag}</h4>
+            </SectionTitle>
 
         {posts.map(({ node }) => {
 
           return (
               <div>
                   <h1>{node.blogPostTitle}</h1>
-                  {node.blogPostTitle.blogPostTags.checkboxValueOptions.map(item => (
-                  <p>TAGS: {item}  </p>
-                  ))}
-
+                  {node.blogPostTags.checkboxValueOptions.map(item => {
+                    if(item.value){
+                        return(
+                            <p>TAGS: {item.value}  </p>
+                        )
+                    } 
+                  })}
+                  <Link to={`/wpis/${node.slug}`}>czytaj</Link>
               </div>
 /*             <div key={node.fields.slug}>
               <h3
@@ -65,7 +77,7 @@ class BlogTagsListIndex extends React.Component {
               ← Previous Page
             </Link>
           )}
-          {Array.from({ length: numTagPages }, (_, i) => (
+          {Array.from({ length: numPages }, (_, i) => (
             <li
               key={`pagination-number${i + 1}`}
               style={{
@@ -73,7 +85,7 @@ class BlogTagsListIndex extends React.Component {
               }}
             >
               <Link
-                to={`/${i === 0 ? '' : i + 1}`}
+                to={`/${tag}/${i === 0 ? '' : i + 1}`}
                 style={{
                   padding: "10px",
                   textDecoration: 'none',
@@ -98,8 +110,8 @@ class BlogTagsListIndex extends React.Component {
 
 export default BlogTagsListIndex
 
-export const pageQuery = graphql`
-  query blogPageTagsQuery($skip: Int!, $limit: Int!) {
+export const pageTagsListQuery = graphql`
+  query blogTagsListPageQuery($skip: Int!, $limit: Int!, $tag: String!) {
     site {
       siteMetadata {
         title
@@ -107,6 +119,7 @@ export const pageQuery = graphql`
     }
     allWpVentuswebstarterblog(
         sort: { fields: [date], order: DESC }
+        filter: {blogPostTags: {checkboxValueOptions: {elemMatch: {value: {eq: $tag}}}}}
         limit: $limit
         skip: $skip
       ) {
@@ -123,6 +136,39 @@ export const pageQuery = graphql`
               }
           }
         }
+      }
+
+      wpVentuswebstartercore(slug: {eq: "seo-content"}) {
+        author
+        city
+        country
+        dir
+        email
+        facebook
+        instagram
+        logoUrl
+        legalName
+        lang
+        phone
+        region
+        siteDescription
+        siteBrand
+        thumbnail {
+          altText
+          localFile {
+            ...FileFragmentSvg
+            ...FileFragmentImg
+          }
+        }
+        siteTitle
+        twitter
+        title
+        github
+        defaultTitle
+        defaultDescription
+        foundingDate
+        zipCode
+        url
       }
    
   }

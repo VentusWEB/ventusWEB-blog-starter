@@ -76,7 +76,67 @@ module.exports = {
 						} */
 		},
 		'gatsby-plugin-robots-txt',
+		`gatsby-plugin-sitemap`,
 		`gatsby-plugin-polyfill-io`,
+		{
+			resolve: `gatsby-plugin-advanced-sitemap`,
+			options: {
+				 // 1 query for each data type
+				query: `
+				{
+					allWpVentuswebstarterblog {
+						edges {
+						  node {
+							id
+							date
+							slug
+							blogPostImage {
+								localFile {
+								  childImageSharp {
+									gatsbyImageData(quality: 60, webpOptions: { quality: 60 })
+								  }
+								  childSvg {
+									content {
+									  data
+									}
+								  }
+								}
+							  }
+							blogPostTags {
+							  checkboxValueOptions  {
+								value
+							  }
+							}
+						  }
+						}
+					  }
+					
+
+				}`,
+				mapping: {
+					// Each data type can be mapped to a predefined sitemap
+					// Routes can be grouped in one of: posts, tags, authors, pages, or a custom name
+					// The default sitemap - if none is passed - will be pages
+					allWpVentuswebstarterblog: {
+						sitemap: `posts`,
+					},
+
+				},
+				exclude: [
+					`/dev-404-page`,
+					`/404`,
+					`/404.html`,
+					`/offline-plugin-app-shell-fallback`,
+					`/my-excluded-page`,
+					/(\/)?hash-\S*/, // you can also pass valid RegExp to exclude internal tags for example
+				],
+				createLinkInHead: true, // optional: create a link in the `<head>` of your site
+				addUncaughtPages: true, // optional: will fill up pages that are not caught by queries and mapping and list them under `sitemap-pages.xml`
+				hideAttribution: false, // optional: hide "Ghost" attribution line from XSL stylesheet
+				localImageHostname: null, // optional: Hostname prefix to add to local internal image urls
+				resultKey: null, // optional: access for query data not at root, but instead under a container key (i.e. 'postgres')
+			}
+		},
 		`gatsby-plugin-preact`,
 /* 		{
 			resolve: "gatsby-plugin-webpack-bundle-analyser-v2",

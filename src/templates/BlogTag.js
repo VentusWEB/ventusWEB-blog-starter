@@ -9,6 +9,9 @@ import { Layout } from 'components/theme'
 
 class TagIndex extends React.Component {
   render() {
+
+    console.log(this.props)
+    console.log('data')
     const { data } = this.props
 /*     const siteTitle = data.site.siteMetadata.title */
     const posts = data.allWpVentuswebstarterblog.edges
@@ -96,7 +99,7 @@ class TagIndex extends React.Component {
 
 export default TagIndex
 
-export const pageTagQuery = graphql`
+export const pageQuery = graphql`
   query blogTagPageQuery($skip: Int!, $limit: Int!) {
     site {
       siteMetadata {

@@ -9,6 +9,8 @@ import { Layout } from 'components/theme'
 
 class BlogIndex extends React.Component {
   render() {
+    console.log(this.props)
+    console.log('data')
     const { data } = this.props
     const siteTitle = data.site.siteMetadata.title
     const posts = data.allWpVentuswebstarterblog.edges

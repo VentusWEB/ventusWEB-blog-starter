@@ -18,6 +18,8 @@ import {
 
 import { ReactComponent as VentusIcon } from "assets/svgs/vt-logo.svg";
 
+import { convertSlug } from "helpers"
+
 
 export const query = graphql`
   query ($slug: String!) {
@@ -181,9 +183,11 @@ const ProductPage = ({ data, key }) => {
   } = data.wpVentuswebstarterblog;
 
 
+ const string = 'Żywność xD'
 
-  console.log(blogPostTags)
-  console.log('blogPostTags')
+ const tes = convertSlug(string)
+  console.log(tes)
+  console.log('convertSlug')
 
   const tags = blogPostTags.checkboxValueOptions.map(item => {
     return item.value
