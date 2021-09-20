@@ -75,8 +75,13 @@ module.exports = {
 							offset: -100
 						} */
 		},
-		'gatsby-plugin-robots-txt',
-		`gatsby-plugin-sitemap`,
+		{
+			resolve: `gatsby-plugin-sitemap`,
+			options: {
+			  output: `/sitemap.xml`,
+			}
+		  },
+		  'gatsby-plugin-robots-txt',
 		`gatsby-plugin-polyfill-io`,
 
 		`gatsby-plugin-preact`,
