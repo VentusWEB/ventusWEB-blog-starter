@@ -84,14 +84,16 @@ module.exports = {
 				 // 1 query for each data type
 				query: `
 				{
-					allWpVentuswebstarterblog {
+					mainPages: allWpVentuswebstarterblog {
 						edges {
 						  node {
 							id
 							date
 							slug
-							blogPostImage {
+							 blogPostImage {
+								link
 								localFile {
+									url
 								  childImageSharp {
 									gatsbyImageData(quality: 60, webpOptions: { quality: 60 })
 								  }
@@ -114,12 +116,24 @@ module.exports = {
 
 				}`,
 				mapping: {
+					mainPages: {
+						serializer: (edges) => {
+						  const payLoad = edges.map(({ node }) => {
+							return {
+							  id: node.id,
+							  slug: node.slug,
+							  feature_image: node.blogPostImage.localFile.url,
+							  updated_at: node.date
+							}
+						  })
+			
+						  console.log('payLoad', payLoad)
+						  return payLoad
+						}
+					  },
 					// Each data type can be mapped to a predefined sitemap
 					// Routes can be grouped in one of: posts, tags, authors, pages, or a custom name
 					// The default sitemap - if none is passed - will be pages
-					allWpVentuswebstarterblog: {
-						sitemap: `posts`,
-					},
 
 				},
 				exclude: [
