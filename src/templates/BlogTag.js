@@ -10,10 +10,10 @@ import { Layout } from 'components/theme'
 class TagIndex extends React.Component {
   render() {
 
-    console.log(this.props)
+/*     console.log(this.props)
     console.log('data')
     const { data } = this.props
-/*     const siteTitle = data.site.siteMetadata.title */
+
     const posts = data.allWpVentuswebstarterblog.edges
     const { currentPage, numPages } = this.props.pageContext
     const isFirst = currentPage === 1
@@ -22,33 +22,20 @@ class TagIndex extends React.Component {
     const nextPage = (currentPage + 1).toString()
 
     console.log(data)
-    console.log('data')
+    console.log('data') */
     return (
       <Layout >
 {/*         <Seo
           title={siteTitle}
 
         /> */}
-
-        {posts.map(({ node }) => {
+<h2>Tagi</h2>
+       {/*  {posts.map(({ node }) => {
 
           return (
               <div>
                   <h1>{node.blogPostTitle}</h1>
               </div>
-/*             <div key={node.fields.slug}>
-              <h3
-                style={{
-                  marginBottom: rhythm(1 / 4),
-                }}
-              >
-                <Link style={{ boxShadow: 'none' }} to={node.fields.slug}>
-                  {title}
-                </Link>
-              </h3>
-              <small>{node.frontmatter.date}</small>
-              <p dangerouslySetInnerHTML={{ __html: node.excerpt }} />
-            </div> */
           )
         })}
         <ul
@@ -91,7 +78,7 @@ class TagIndex extends React.Component {
               Next Page →
             </Link>
           )}
-        </ul>
+        </ul> */}
       </Layout>
     )
   }
@@ -100,7 +87,7 @@ class TagIndex extends React.Component {
 export default TagIndex
 
 export const pageQuery = graphql`
-  query blogTagPageQuery($skip: Int!, $limit: Int!) {
+  query blogTagPageQuery{
     site {
       siteMetadata {
         title
@@ -108,8 +95,6 @@ export const pageQuery = graphql`
     }
     allWpVentuswebstarterblog(
         sort: { fields: [date], order: DESC }
-        limit: $limit
-        skip: $skip
       ) {
         edges {
           node {
@@ -117,6 +102,11 @@ export const pageQuery = graphql`
             date
             blogPostTitle
             blogPostExcerpt
+            blogPostTags {
+              checkboxValueOptions  {
+                value
+              }
+            }
           }
         }
       }

@@ -14,6 +14,7 @@ import { ContactForm } from 'components/tools'
 import { ContentBox, PaddingWrapper } from 'components/common'
 import { deviceType } from 'detect-it';
 
+import { convertSlug } from "helpers"
 
 export const Contact = ({ ContactData, ContactItems, ContactBrandInfo }) => {
 
@@ -27,7 +28,7 @@ export const Contact = ({ ContactData, ContactItems, ContactBrandInfo }) => {
         sectionTitle
     } = ContactData
 
-    const id = sectionTitle.replace(" ", "-").toLowerCase()
+    const id = convertSlug(sectionTitle)
 
     return (
         <> 

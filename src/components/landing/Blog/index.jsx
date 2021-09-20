@@ -11,6 +11,7 @@ import { getImage } from "gatsby-plugin-image"
 
 import { ProductCard } from 'components/product'
 
+import { convertSlug } from "helpers"
 
 
 export const Blog = ({ itemData, BlogData, defaultBlogPostImg }) => {
@@ -25,7 +26,7 @@ export const Blog = ({ itemData, BlogData, defaultBlogPostImg }) => {
         sectionTitle
     } = BlogData
 
-    const id = sectionTitle.replace(" ", "-").toLowerCase()
+    const id = convertSlug(sectionTitle)
 
 
     return (

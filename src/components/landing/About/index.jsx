@@ -7,15 +7,25 @@ import { GatsbyImage } from "gatsby-plugin-image"
 import { Wrapper, GridWrapper, AboutIconsBox, FeaturesBox } from './styles';
 import { SectionTitle, PropCard, ContentBox } from 'components/common'
 
+import { convertSlug } from "helpers"
+
 export const About = ({ AboutData, AboutFeatures }) => {
 
-    const order = AboutData.order
+    const {
+        order,
+        title,
+        paragraphs,
+        subTitle,
+        blogContent,
+        blogContentSecondary,
+        textHeader,
+        sectionTitle
+    } = AboutData
 
-    const title = AboutData.textHeader
 
-    const id = AboutData.sectionTitle.replace(" ", "-").toLowerCase()
+    const id = convertSlug(sectionTitle)
 
-    const content = AboutData.paragraphs.fieldsList
+    const content = paragraphs.fieldsList
 
     return (
         <Wrapper id={id} css={`{ order: ${order}; }`}  >
