@@ -112,7 +112,32 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
             tag: uniqTag,
           },
         })
-      })
+      });
+
+      
+
+
+      let pageTagsNumber = posts.length
+
+      const postsTagPerPage = 2;
+      const numTagPages = Math.ceil(posts.length / postsTagPerPage);
+
+      const postsTagsListTemplate = path.resolve("src/templates/BlogList.js");
+/*       const postsPerPage = 2;
+      const numPages = Math.ceil(posts.length / postsPerPage); */
+  
+      filteredTags.forEach((uniqTag, i) => {
+        createPage({
+          path: i === 0 ? `/tags/${uniqTag}` : `/tags/${uniqTag}/${i + 1}`,
+          component: postsTagsListTemplate,
+          context: {
+            limit: postsTagPerPage,
+            skip: i * postsTagPerPage,
+            numTagPages,
+            currentPage: i + 1
+          },
+        });
+      });
 
 /*     const tags = post.node.blogPostTags.checkboxValueOptions.map(item => {
       return item.value

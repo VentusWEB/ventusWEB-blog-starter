@@ -196,8 +196,8 @@ const ProductPage = ({ data, key }) => {
       console.log(uniqTag+'uni')
     }
   })
-  const tagName = 'koty'
-  
+  const tagName = 'żywienie'
+
   const allBlogPosts = data.blogPosts.edges
 
 
@@ -216,6 +216,8 @@ const ProductPage = ({ data, key }) => {
     console.log(filteredTags)
   console.log('filteredAllTags')
   let filteredPosts = [];
+
+  
   allBlogPosts.map(option => {
     option.node.blogPostTags.checkboxValueOptions.map(item => {
       if((item.value == tagName)) filteredPosts.push(option)
@@ -223,6 +225,8 @@ const ProductPage = ({ data, key }) => {
   })
 
   let pageTagsNumber = filteredPosts.length
+
+  console.log(filteredPosts)
 
   console.log(pageTagsNumber)
 /*   allBlogPosts.filter(option => {
