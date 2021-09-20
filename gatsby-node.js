@@ -115,7 +115,26 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
             nextTag,
           },
         })
+
+        const postsListTemplate = path.resolve("src/templates/BlogList.js");
+        const postsPerPage = 2;
+        const numPages = Math.ceil(posts.length / postsPerPage);
+    
+        Array.from({ length: numPages }).forEach((_, i) => {
+          createPage({
+            path: i === 0 ? `/${uniqTag}` : `/${uniqTag}/${i + 1}`,
+            component: postsListTemplate,
+            context: {
+              limit: postsPerPage,
+              skip: i * postsPerPage,
+              numPages,
+              currentPage: i + 1
+            },
+          });
+        });
       });
+
+
 
       
       let filteredPosts = [];
@@ -126,15 +145,9 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
           if((item.value == uniqTag)) filteredPosts.push(option)
         })
       })
-    
-      let pageTagsNumber = filteredPosts.length
-    
-/*       console.log(filteredPosts)
-    
-      console.log(pageTagsNumber)
 
       let pageTagsNumber = posts.length
- */
+
       const postsTagPerPage = 2;
       const numTagPages = Math.ceil(posts.length / postsTagPerPage);
 
@@ -154,7 +167,67 @@ exports.createPages = async ({ actions: { createPage }, graphql }) => {
           },
         });
       });
+    
+/*       let pageTagsNumber = filteredPosts.length
+    
+      console.log(filteredPosts)
+    
+      console.log(pageTagsNumber)
 
+      let pageTagsNumber = posts.length
+
+      const postsTagPerPage = 2;
+      const numTagPages = Math.ceil(posts.length / postsTagPerPage);
+
+      const postsTagsListTemplate = path.resolve("src/templates/BlogList.js");
+      const postsPerPage = 2;
+      const numPages = Math.ceil(posts.length / postsPerPage);
+  
+      filteredTags.forEach((uniqTag, i) => {
+        createPage({
+          path: i === 0 ? `/tags/${uniqTag}` : `/tags/${uniqTag}/${i + 1}`,
+          component: postsTagsListTemplate,
+          context: {
+            limit: postsTagPerPage,
+            skip: i * postsTagPerPage,
+            numTagPages,
+            currentPage: i + 1
+          },
+        });
+      }); */
+
+/*       let pageTagsNumber = filteredPosts.length
+
+      const postsTagPerPage = 2;
+      const numTagPages = Math.ceil(filteredPosts.length / postsTagPerPage);
+
+      const postsTagsListTemplate = path.resolve("src/templates/BlogList.js");
+  
+      filteredTags.forEach((uniqTag, i) => {
+
+        Array.from({ length: numTagPages }).forEach((_, i) => {
+          createPage({
+            path: i === 0 ? `/tags/${uniqTag}` : `/tags/${uniqTag}/${i + 1}`,
+            component: postsTagsListTemplate,
+            context: {
+              limit: postsTagPerPage,
+              skip: i * postsTagPerPage,
+              numTagPages,
+              currentPage: i + 1
+            },
+          });
+        }); */
+/*         createPage({
+          path: i === 0 ? `/tags/${uniqTag}` : `/tags/${uniqTag}/${i + 1}`,
+          component: postsTagsListTemplate,
+          context: {
+            limit: postsTagPerPage,
+            skip: i * postsTagPerPage,
+            numTagPages,
+            currentPage: i + 1
+          },
+        }); */
+      /* }); */
 /*     const tags = post.node.blogPostTags.checkboxValueOptions.map(item => {
       return item.value
     })
